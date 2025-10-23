@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.r1 {color: #008000; text-decoration-color: #008000}
+.r2 {color: #800080; text-decoration-color: #800080}
+.r3 {color: #800080; text-decoration-color: #800080; font-weight: bold}
+.r4 {color: #008080; text-decoration-color: #008080}
+.r5 {font-weight: bold}
+.r6 {color: #008080; text-decoration-color: #008080; font-weight: bold}
+.r7 {color: #808000; text-decoration-color: #808000}
+.r8 {color: #008000; text-decoration-color: #008000; font-weight: bold}
+.r9 {color: #800000; text-decoration-color: #800000; font-weight: bold}
+.r10 {font-style: italic}
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit">📁 Pasta <span class="r1">&#x27;img&#x27;</span> criada para salvar os gráficos.
+<span class="r2">─────────────────────────────────────── </span><span class="r3">RELATÓRIO DE ANÁLISE AVANÇADA DO DATASET </span><span class="r3">&#x27;DIAMONDS&#x27;</span><span class="r3"> (LOCAL)</span><span class="r2"> ────────────────────────────────────────</span>
+<span class="r4">╭─────────────────────────────────────────────────────────────── Introdução ───────────────────────────────────────────────────────────────╮</span>
+<span class="r4">│</span> Este script realiza a limpeza, preparação e análise avançada do dataset &#x27;diamonds&#x27; (carregado localmente). O objetivo é transformar      <span class="r4">│</span>
+<span class="r4">│</span> variáveis, limpar dados, analisar o valor relativo (preço por quilate) e analisar a relação entre as características dos diamantes e     <span class="r4">│</span>
+<span class="r4">│</span> seus preços.                                                                                                                             <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+
+
+================================================================================
+📥 <span class="r5">ETAPA </span><span class="r6">1</span><span class="r5">: CARREGAMENTO DOS DADOS</span> 📥
+================================================================================
+
+Carregando dataset <span class="r1">&#x27;diamonds.csv&#x27;</span> local<span class="r7">...</span>
+<span class="r8">Dataset carregado com sucesso!</span>
+
+
+================================================================================
+📊 <span class="r5">ETAPA </span><span class="r6">2</span><span class="r5">: DIAGNÓSTICO DOS DADOS BRUTOS</span> 📊
+================================================================================
+
+O dataset bruto foi carregado com <span class="r6">53940</span> linhas e <span class="r6">11</span> colunas.
+
+Removendo coluna <span class="r1">&#x27;Unnamed: 0&#x27;</span> <span class="r5">(</span>índice extra<span class="r5">)</span> do dataset.
+Dataset agora possui <span class="r6">10</span> colunas.
+
+<span class="r7">╭────────────────────────────────────────────────────── Diagnóstico dos Dados Brutos ──────────────────────────────────────────────────────╮</span>
+<span class="r7">│</span> A análise inicial revelou dados nulos (se houver):                                                                                       <span class="r7">│</span>
+<span class="r7">│</span> carat      0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> cut        0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> color      0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> clarity    0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> depth      0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> table      0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> price      0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> x          0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> y          0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> z          0                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span> dtype: int64                                                                                                                             <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                                          <span class="r7">│</span>
+<span class="r7">│</span> Mais importante, foi identificado um problema de integridade dos dados:                                                                  <span class="r7">│</span>
+<span class="r7">│</span> - <span class="r9">20 diamantes</span> estão listados com dimensões (&#x27;x&#x27;, &#x27;y&#x27; ou &#x27;z&#x27;) iguais a 0, o que é fisicamente impossível.                                <span class="r7">│</span>
+<span class="r7">│</span>                                                                                                                                          <span class="r7">│</span>
+<span class="r7">│</span> As colunas &#x27;cut&#x27;, &#x27;color&#x27; e &#x27;clarity&#x27; são categóricas e precisam ser codificadas para análise de correlação.                             <span class="r7">│</span>
+<span class="r7">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+
+
+================================================================================
+✨ <span class="r5">ETAPA </span><span class="r6">3</span><span class="r5">: PROCESSO DE LIMPEZA E PREPARAÇÃO</span> ✨
+================================================================================
+
+<span class="r7">╭───────────────────────────────────────────────────── Ações de Limpeza e Preparação ──────────────────────────────────────────────────────╮</span>
+<span class="r7">│</span> As seguintes ações foram tomadas:                                                                                                        <span class="r7">│</span>
+<span class="r7">│</span> 1. <span class="r5">Remoção de Linhas:</span> 20 linhas com dimensões &#x27;x&#x27;, &#x27;y&#x27; ou &#x27;z&#x27; zeradas foram removidas.                                                   <span class="r7">│</span>
+<span class="r7">│</span> 2. <span class="r5">Codificação:</span> &#x27;cut&#x27;, &#x27;color&#x27; e &#x27;clarity&#x27; foram mapeadas para valores numéricos.                                                        <span class="r7">│</span>
+<span class="r7">│</span> 3. <span class="r5">Engenharia de Feature (Volume):</span> Criada a coluna &#x27;volume&#x27; (x*y*z).                                                                     <span class="r7">│</span>
+<span class="r7">│</span> 4. <span class="r5">Engenharia de Feature (Valor Relativo):</span> Criada a coluna &#x27;price_per_carat&#x27; (price/carat).                                              <span class="r7">│</span>
+<span class="r7">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+
+📝 <span class="r5">O dataset limpo e preparado foi salvo como </span><span class="r8">&#x27;diamonds_dados_limpos.csv&#x27;</span>
+
+
+================================================================================
+📈 <span class="r5">ETAPA </span><span class="r6">4</span><span class="r5">: INICIANDO ANÁLISES BIVARIADAS</span> 📈
+================================================================================
+
+  <span class="r6">1</span><span class="r5">. Análise: Quilates (carat) vs. Preço (price)</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_1_carat_vs_price.png&#x27;</span>
+
+<span class="r4">╭─────────────────────────── Conclusão (Análise 1) ────────────────────────────╮</span>
+<span class="r4">│</span> Como esperado, &#x27;carat&#x27; é um dos principais fatores do preço. A relação é     <span class="r4">│</span>
+<span class="r4">│</span> positiva e exponencial: quanto maior o peso em quilates, mais o preço        <span class="r4">│</span>
+<span class="r4">│</span> aumenta, e esse aumento se acelera.                                          <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────╯</span>
+
+  <span class="r6">2</span><span class="r5">. Análise (Avançada): Qualidade do Corte (cut) vs. Preço POR QUILATE</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_2_cut_vs_price_per_carat.png&#x27;</span>
+
+<span class="r4">╭─────────────────────────── Conclusão (Análise 2) ────────────────────────────╮</span>
+<span class="r4">│</span> Ao normalizar pelo &#x27;carat&#x27; (analisando preço por quilate), a verdadeira      <span class="r4">│</span>
+<span class="r4">│</span> influência do corte fica clara. Diamantes &#x27;Ideal&#x27; têm um valor               <span class="r4">│</span>
+<span class="r4">│</span> (preço/quilate) mediano significativamente maior que todos os outros,        <span class="r4">│</span>
+<span class="r4">│</span> mostrando que o mercado paga mais pela qualidade do corte, independentemente <span class="r4">│</span>
+<span class="r4">│</span> do tamanho.                                                                  <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────╯</span>
+
+  <span class="r6">3</span><span class="r5">. Análise (Avançada): Cor (color) vs. Preço POR QUILATE</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_3_color_vs_price_per_carat.png&#x27;</span>
+
+<span class="r4">╭─────────────────────────── Conclusão (Análise 3) ────────────────────────────╮</span>
+<span class="r4">│</span> Esta análise mostra claramente a escada de valor. À medida que a cor melhora <span class="r4">│</span>
+<span class="r4">│</span> (de J para D), o preço por quilate mediano sobe consistentemente. Isso prova <span class="r4">│</span>
+<span class="r4">│</span> que, para um mesmo tamanho, um diamante de cor &#x27;D&#x27; é muito mais valioso que  <span class="r4">│</span>
+<span class="r4">│</span> um de cor &#x27;J&#x27;.                                                               <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────╯</span>
+
+  <span class="r6">4</span><span class="r5">. Análise: Profundidade (depth) vs. Largura da Mesa (table)</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_4_depth_vs_table.png&#x27;</span>
+
+<span class="r4">╭─────────────────────────── Conclusão (Análise 4) ────────────────────────────╮</span>
+<span class="r4">│</span> Esta análise explora a relação entre duas proporções de corte. A grande      <span class="r4">│</span>
+<span class="r4">│</span> maioria dos diamantes se concentra em uma faixa específica: &#x27;table&#x27; entre    <span class="r4">│</span>
+<span class="r4">│</span> 54-60 e &#x27;depth&#x27; entre 60-64. Isso representa o &#x27;ponto ideal&#x27; de corte        <span class="r4">│</span>
+<span class="r4">│</span> buscado pela indústria.                                                      <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────╯</span>
+
+  <span class="r6">5</span><span class="r5">. Análise Bônus: Relação Preço/Quilate por Nível de Pureza (clarity)</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_5_bonus_multivariada.png&#x27;</span>
+
+<span class="r4">╭───────────────────────── Conclusão (Análise Bônus) ──────────────────────────╮</span>
+<span class="r4">│</span> Este gráfico múltiplo mostra como a pureza (&#x27;clarity&#x27;) afeta a relação       <span class="r4">│</span>
+<span class="r4">│</span> preço/quilate. Na pureza &#x27;I1&#x27; (pior), a relação é fraca. Conforme a pureza   <span class="r4">│</span>
+<span class="r4">│</span> aumenta (ex: &#x27;VVS2&#x27;, &#x27;IF&#x27;), a curva de preço se inclina para cima muito mais <span class="r4">│</span>
+<span class="r4">│</span> rapidamente. Diamantes &#x27;IF&#x27; (perfeitos) têm um aumento de preço exponencial  <span class="r4">│</span>
+<span class="r4">│</span> muito mais acentuado.                                                        <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────╯</span>
+
+
+================================================================================
+🔗 <span class="r5">ETAPA </span><span class="r6">5</span><span class="r5">: INICIANDO DUAS ANÁLISES DE CORRELAÇÃO</span> 🔗
+================================================================================
+
+  <span class="r6">1</span><span class="r5">. Correlação: Matriz de Correlação (Heatmap)</span>
+  📈 Gráfico salvo como: <span class="r1">&#x27;img/grafico_6_heatmap_correlacao.png&#x27;</span>
+
+<span class="r4">╭──────────────────────────────────────────────────────── Conclusão (Correlação 1) ────────────────────────────────────────────────────────╮</span>
+<span class="r4">│</span> O heatmap mostra visualmente as correlações lineares (Pearson).                                                                          <span class="r4">│</span>
+<span class="r4">│</span> 1. <span class="r5">&#x27;price&#x27;</span> tem correlação altíssima com <span class="r5">&#x27;carat&#x27; (0.92)</span>, &#x27;volume&#x27; (0.90), &#x27;x&#x27; (0.88), &#x27;y&#x27; (0.88) e &#x27;z&#x27; (0.88).                            <span class="r4">│</span>
+<span class="r4">│</span> 2. <span class="r5">&#x27;price_per_carat&#x27;</span> (nosso novo indicador) mostra correlação negativa com &#x27;carat&#x27; (-0.07), mas correlações positivas fortes com         <span class="r4">│</span>
+<span class="r4">│</span> <span class="r5">&#x27;clarity&#x27; (0.35)</span>, <span class="r5">&#x27;color&#x27; (0.43)</span> e <span class="r5">&#x27;cut&#x27; (0.19)</span>, provando que é uma métrica melhor para avaliar a &#x27;qualidade&#x27; do que o preço bruto.      <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+
+  <span class="r6">2</span><span class="r5">. Correlação: As dimensões (x, y, z) influenciam no preço?</span>
+<span class="r10">Correlação Direta com o Preço (price)   </span>
+<span class="r4">┏━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span>
+<span class="r4">┃</span><span class="r5"> Variável </span><span class="r4">┃</span><span class="r5"> Coeficiente de Correlação </span><span class="r4">┃</span>
+<span class="r4">┡━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩</span>
+<span class="r4">│</span><span class="r2"> carat    </span><span class="r4">│</span><span class="r7">          0.9216           </span><span class="r4">│</span>
+<span class="r4">│</span><span class="r2"> volume   </span><span class="r4">│</span><span class="r7">          0.9043           </span><span class="r4">│</span>
+<span class="r4">│</span><span class="r2"> x        </span><span class="r4">│</span><span class="r7">          0.8872           </span><span class="r4">│</span>
+<span class="r4">│</span><span class="r2"> z        </span><span class="r4">│</span><span class="r7">          0.8682           </span><span class="r4">│</span>
+<span class="r4">│</span><span class="r2"> y        </span><span class="r4">│</span><span class="r7">          0.8679           </span><span class="r4">│</span>
+<span class="r4">└──────────┴───────────────────────────┘</span>
+
+<span class="r4">╭──────────────────────────────────────────────────────── Conclusão (Correlação 2) ────────────────────────────────────────────────────────╮</span>
+<span class="r4">│</span> Sim, as variáveis x (comprimento), y (largura) e z (profundidade) influenciam <span class="r5">fortemente</span> o preço. A tabela acima mostra que todas têm    <span class="r4">│</span>
+<span class="r4">│</span> uma correlação linear muito alta (próxima de 0.88) com &#x27;price&#x27;.                                                                          <span class="r4">│</span>
+<span class="r4">│</span> Isso ocorre porque as dimensões determinam o &#x27;volume&#x27; do diamante, que por sua vez está quase perfeitamente correlacionado com o &#x27;carat&#x27; <span class="r4">│</span>
+<span class="r4">│</span> (peso), que é o principal fator de preço.                                                                                                <span class="r4">│</span>
+<span class="r4">╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</code></pre>
+</body>
+</html>
